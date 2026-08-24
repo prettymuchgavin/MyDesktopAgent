@@ -1,6 +1,6 @@
 /**
  * My Desktop Agent - Interactive Website Scripts
- * Provides interactive simulations, skills explorer, Telegram bot simulator, and utilities.
+ * Provides mobile-friendly simulations, skills explorer, Telegram bot simulator, and clipboard utilities.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,15 +18,18 @@ function initMobileMenu() {
 
   if (!menuBtn || !drawer) return;
 
-  menuBtn.addEventListener('click', () => {
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     drawer.classList.toggle('open');
     const icon = menuBtn.querySelector('i');
     if (drawer.classList.contains('open')) {
       icon.classList.remove('fa-bars');
       icon.classList.add('fa-xmark');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
     } else {
       icon.classList.remove('fa-xmark');
       icon.classList.add('fa-bars');
+      document.body.style.overflow = '';
     }
   });
 
@@ -34,9 +37,12 @@ function initMobileMenu() {
   drawer.querySelectorAll('.mobile-nav-link, a').forEach(link => {
     link.addEventListener('click', () => {
       drawer.classList.remove('open');
+      document.body.style.overflow = '';
       const icon = menuBtn.querySelector('i');
-      icon.classList.remove('fa-xmark');
-      icon.classList.add('fa-bars');
+      if (icon) {
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      }
     });
   });
 }
@@ -47,7 +53,7 @@ function initMobileMenu() {
 const simScenarios = [
   {
     goal: '"Research top 5 AI agent papers from arXiv, summarize key findings, and draft into LibreOffice report."',
-    windowTitle: 'Q3_AI_Research_Report.docx - LibreOffice Writer',
+    windowTitle: 'Q3_AI_Research_Report.docx - Writer',
     typing: 'Key Finding: Multimodal agents with machine-speed terminal tooling achieve 4.2x faster task completion than pure visual clicking.',
     steps: [
       { text: 'Execute DuckDuckGo fast search for arXiv multimodal agents', sub: 'Tool: terminal.web_search("site:arxiv.org AI desktop agent") • 0.32s', status: 'done' },
@@ -298,15 +304,19 @@ function loadSkillContent(skillKey) {
   const codeEl = document.getElementById('skillCodeDisplay');
 
   if (fnameEl) {
-    fnameEl.innerHTML = `<i class="fa-brands fa-markdown text-blue-400"></i> <span>${data.filename}</span>`;
+    fnameEl.innerHTML = `<i class="fa-brands fa-markdown text-blue-400"></i> <span class="truncate-text">${data.filename}</span>`;
   }
   if (codeEl) {
     codeEl.innerHTML = `<code>${escapeHtml(data.content)}</code>`;
   }
 
   // Update button active state
-  document.querySelectorAll('.skill-file-item').forEach(btn => btn.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  document.querySelectorAll('.skill-file-item').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  }
 }
 
 function copyActiveSkill(btn) {
@@ -342,7 +352,7 @@ function handleTgSimClick(action) {
 
   const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-  if (action === 'screenshot') {
+  if (action === 'screenshot' || action === 'Screenshot') {
     appendUserTgMsg('/screen', timeStr);
     setTimeout(() => {
       appendBotTgMsg(`
@@ -354,15 +364,15 @@ function handleTgSimClick(action) {
         </div>
       `, timeStr, ['📸 Refresh', '⏸️ Pause', '⏹️ Stop']);
     }, 600);
-  } else if (action === 'pause') {
+  } else if (action === 'pause' || action === 'Pause') {
     appendUserTgMsg('[⏸️ Pause Task]', timeStr);
     setTimeout(() => {
       appendBotTgMsg(`
         ⏸️ <b>Task Paused</b><br>
-        Agent controls suspended. Press Resume when ready.
+        Agent controls suspended. Tap Resume when ready.
       `, timeStr, ['▶️ Resume', '⏹️ Stop']);
     }, 400);
-  } else if (action === 'stop') {
+  } else if (action === 'stop' || action === 'Stop') {
     appendUserTgMsg('[⏹️ Stop Task]', timeStr);
     setTimeout(() => {
       appendBotTgMsg(`
@@ -412,12 +422,12 @@ function handleTgSimSend() {
         🤖 <b>Active Task:</b> Custom Instruction<br>
         ━━━━━━━━━━━━━━━<br>
         ✅ 1. Screen perception parsed (40ms)<br>
-        ⏳ 2. Executing instruction: "${userText}"<br>
+        ⏳ 2. Executing: "${escapeHtml(userText)}"<br>
         ⬜ 3. Final verification & snapshot
       `, timeStr, ['📸 Screenshot', '⏸️ Pause', '⏹️ Stop']);
     } else {
       appendBotTgMsg(`
-        🤖 <b>Received Goal:</b> "${userText}"<br>
+        🤖 <b>Received Goal:</b> "${escapeHtml(userText)}"<br>
         Starting autonomous execution now.
       `, timeStr, ['📸 Screenshot', '⏸️ Pause', '⏹️ Stop']);
     }
@@ -465,7 +475,10 @@ function appendBotTgMsg(htmlContent, timeStr, buttons = []) {
 function switchQsTab(tabKey) {
   const tabs = document.querySelectorAll('.qs-tab');
   tabs.forEach(t => t.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  }
 
   const panes = {
     clone: 'qsPaneClone',

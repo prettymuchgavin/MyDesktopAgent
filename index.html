@@ -2,10 +2,12 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>My Desktop Agent | Autonomous AI Desktop Assistant for Windows</title>
   <meta name="description" content="The Autonomous AI Desktop Assistant That Sees Your Screen, Runs Terminal Tools, and Takes Action. Open-source, local-first or cloud-powered.">
   <meta name="theme-color" content="#0b1326">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Google Fonts: Editorial Serif + Inter + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +31,7 @@
     <div class="container flex items-center justify-between">
       <div class="announcement-content flex items-center gap-2">
         <span class="badge-pill badge-emerald"><i class="fa-solid fa-sparkles"></i> v1.4 Released</span>
-        <span>Push-to-Talk Voice (`Alt+A`), Drop-in Markdown Skills &amp; Multi-Monitor Vision are live!</span>
+        <span class="announcement-text">Push-to-Talk Voice (`Alt+A`), Drop-in Markdown Skills &amp; Multi-Monitor Vision!</span>
       </div>
       <a href="#quickstart" class="announcement-link">Get Started <i class="fa-solid fa-arrow-right"></i></a>
     </div>
@@ -52,7 +54,7 @@
       <div class="nav-links flex items-center gap-6">
         <a href="#features" class="nav-link">Capabilities</a>
         <a href="#how-it-works" class="nav-link">How It Works</a>
-        <a href="#skills" class="nav-link">Skills Ecosystem</a>
+        <a href="#skills" class="nav-link">Skills</a>
         <a href="#telegram" class="nav-link">Telegram Remote</a>
         <a href="#comparison" class="nav-link">Comparison</a>
         <a href="#quickstart" class="nav-link">Quickstart</a>
@@ -60,14 +62,14 @@
       </div>
 
       <div class="nav-actions flex items-center gap-3">
-        <a href="https://github.com/prettymuchgavin/MyDesktopAgent" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm flex items-center gap-2">
+        <a href="https://github.com/prettymuchgavin/MyDesktopAgent" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm flex items-center gap-2 github-btn">
           <i class="fa-brands fa-github"></i>
           <span class="btn-text">GitHub</span>
           <span class="github-star-count" id="starCount"><i class="fa-solid fa-star text-amber"></i> Star</span>
         </a>
-        <a href="#quickstart" class="btn btn-primary btn-sm glow-btn flex items-center gap-2">
+        <a href="#quickstart" class="btn btn-primary btn-sm glow-btn install-btn flex items-center gap-2">
           <i class="fa-solid fa-download"></i>
-          <span>Install Now</span>
+          <span>Install</span>
         </a>
         <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
           <i class="fa-solid fa-bars"></i>
@@ -86,8 +88,9 @@
         <a href="#quickstart" class="mobile-nav-link"><i class="fa-solid fa-bolt"></i> Quickstart Guide</a>
         <a href="#faq" class="mobile-nav-link"><i class="fa-solid fa-circle-question"></i> FAQ</a>
       </div>
-      <div class="mobile-drawer-actions">
-        <a href="#quickstart" class="btn btn-primary w-full text-center">Install Agent</a>
+      <div class="mobile-drawer-actions flex flex-col gap-2">
+        <a href="#quickstart" class="btn btn-primary w-full text-center"><i class="fa-solid fa-download mr-2"></i> Install Desktop Agent</a>
+        <a href="https://github.com/prettymuchgavin/MyDesktopAgent" target="_blank" rel="noopener noreferrer" class="btn btn-secondary w-full text-center"><i class="fa-brands fa-github mr-2"></i> View on GitHub</a>
       </div>
     </div>
   </header>
@@ -129,7 +132,7 @@
         <div class="code-pill flex items-center justify-between" id="heroCommandBox">
           <div class="code-pill-text flex items-center gap-2">
             <span class="prompt-symbol">$</span>
-            <code>git clone https://github.com/prettymuchgavin/MyDesktopAgent &amp;&amp; python setup.py</code>
+            <code class="code-snippet-scroll">git clone https://github.com/prettymuchgavin/MyDesktopAgent &amp;&amp; python setup.py</code>
           </div>
           <button class="copy-pill-btn" onclick="copySnippet('git clone https://github.com/prettymuchgavin/MyDesktopAgent && python setup.py', this)" title="Copy Command">
             <i class="fa-regular fa-clone"></i>
@@ -139,12 +142,12 @@
       </div>
 
       <!-- Feature Badges Ribbon -->
-      <div class="hero-stats-ribbon flex items-center justify-center flex-wrap gap-6">
-        <div class="stat-pill"><i class="fa-solid fa-bolt text-emerald"></i> <span>&lt; 1s Web Search &amp; Terminal</span></div>
-        <div class="stat-pill"><i class="fa-solid fa-lock text-emerald"></i> <span>100% Offline with Ollama or Cloud APIs</span></div>
-        <div class="stat-pill"><i class="fa-solid fa-microphone text-emerald"></i> <span>Voice Push-to-Talk (<kbd>Alt+A</kbd>)</span></div>
-        <div class="stat-pill"><i class="fa-brands fa-telegram text-emerald"></i> <span>Zero-Config Mobile Telegram Bot</span></div>
-        <div class="stat-pill"><i class="fa-solid fa-shield-halved text-emerald"></i> <span>Heuristic Safety Filter</span></div>
+      <div class="hero-stats-ribbon flex items-center justify-center flex-wrap gap-4">
+        <div class="stat-pill"><i class="fa-solid fa-bolt text-emerald"></i> <span>&lt; 1s Web &amp; Terminal</span></div>
+        <div class="stat-pill"><i class="fa-solid fa-lock text-emerald"></i> <span>100% Offline with Ollama</span></div>
+        <div class="stat-pill"><i class="fa-solid fa-microphone text-emerald"></i> <span>Push-to-Talk (<kbd>Alt+A</kbd>)</span></div>
+        <div class="stat-pill"><i class="fa-brands fa-telegram text-emerald"></i> <span>Mobile Telegram Bot</span></div>
+        <div class="stat-pill"><i class="fa-solid fa-shield-halved text-emerald"></i> <span>Safety Filter</span></div>
       </div>
 
       <!-- Live Interactive Desktop Agent Dashboard Mockup -->
@@ -159,12 +162,12 @@
             </div>
             <div class="window-title flex items-center gap-2">
               <i class="fa-solid fa-robot text-lavender"></i>
-              <span>My Desktop Agent — Autonomous Control Center [Display #1 • 2560x1440]</span>
+              <span class="window-title-text">My Desktop Agent — Control Center [Display 1 • 2560x1440]</span>
             </div>
             <div class="window-status-pill flex items-center gap-2">
               <span class="live-dot"></span>
-              <span class="text-xs uppercase font-mono tracking-wider text-emerald">ACTIVE SESSION</span>
-              <span class="hotkey-hint"><kbd>F12</kbd> Emergency Pause</span>
+              <span class="text-xs uppercase font-mono tracking-wider text-emerald active-status-text">ACTIVE</span>
+              <span class="hotkey-hint"><kbd>F12</kbd> Pause</span>
             </div>
           </div>
 
@@ -179,7 +182,7 @@
                   <span class="card-label">Zero-Flicker Screen Perception</span>
                 </div>
                 <div class="stream-meta flex items-center gap-3">
-                  <span class="tag-badge">GDI Direct Capture</span>
+                  <span class="tag-badge">GDI Direct</span>
                   <span class="fps-badge font-mono text-emerald">30 FPS</span>
                 </div>
               </div>
@@ -188,26 +191,15 @@
                 <div class="screen-viewport" id="screenViewport">
                   <!-- Simulated Desktop Screen -->
                   <div class="simulated-desktop">
-                    <div class="sim-taskbar flex items-center justify-between">
-                      <div class="flex items-center gap-2">
-                        <i class="fa-brands fa-windows text-blue-400"></i>
-                        <span class="text-xs text-slate-400">Search Windows</span>
-                      </div>
-                      <div class="flex items-center gap-3 text-xs text-slate-400 font-mono">
-                        <span>14:43:56</span>
-                        <span>Display 1 (Primary)</span>
-                      </div>
-                    </div>
-
                     <div class="sim-workspaces">
                       <!-- Active App: Google Docs / Research doc -->
                       <div class="sim-app-window">
                         <div class="sim-app-header flex items-center justify-between">
-                          <div class="flex items-center gap-2">
+                          <div class="flex items-center gap-2 truncate-box">
                             <i class="fa-solid fa-file-lines text-blue-400"></i>
-                            <span class="font-mono text-xs text-white">Q3_AI_Research_Report.docx - LibreOffice Writer</span>
+                            <span class="font-mono text-xs text-white app-title-text">Q3_AI_Research_Report.docx - Writer</span>
                           </div>
-                          <span class="text-xs text-slate-400">Target App [PID: 8492]</span>
+                          <span class="text-xs text-slate-400 pid-tag">PID: 8492</span>
                         </div>
                         <div class="sim-app-content">
                           <p class="text-xs text-slate-300"># Executive Summary: Open-Source Multimodal Agent Architectures</p>
@@ -224,17 +216,28 @@
                         <div class="ai-click-ripple" id="clickRipple"></div>
                       </div>
                     </div>
+
+                    <div class="sim-taskbar flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <i class="fa-brands fa-windows text-blue-400"></i>
+                        <span class="text-xs text-slate-400 taskbar-search-text">Search Windows</span>
+                      </div>
+                      <div class="flex items-center gap-3 text-xs text-slate-400 font-mono">
+                        <span>14:43</span>
+                        <span>Display 1</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 <!-- Screen Bottom Diagnostics -->
                 <div class="screen-footer-bar flex items-center justify-between">
-                  <div class="flex items-center gap-3 text-xs font-mono text-slate-300">
+                  <div class="flex items-center gap-3 text-xs font-mono text-slate-300 flex-wrap">
                     <span><i class="fa-solid fa-crosshairs text-emerald"></i> Cursor: (1420, 680)</span>
                     <span><i class="fa-solid fa-window-maximize text-blue-400"></i> Focus: LibreOffice</span>
                   </div>
                   <div class="flex items-center gap-2">
-                    <span class="badge-subtle">Safe Mode: Active</span>
+                    <span class="badge-subtle text-xs">Safe Mode</span>
                   </div>
                 </div>
               </div>
@@ -318,7 +321,7 @@
                   <button class="sim-action-btn" id="simPauseBtn" onclick="toggleSimPause()"><i class="fa-solid fa-pause"></i> Pause</button>
                   <button class="sim-action-btn" id="simNewTaskBtn" onclick="cycleSimTask()"><i class="fa-solid fa-forward-step"></i> Next Scenario</button>
                 </div>
-                <span class="text-xs font-mono text-slate-400">Interactive Preview</span>
+                <span class="text-xs font-mono text-slate-400 sim-tag-label">Interactive Preview</span>
               </div>
 
             </div>
@@ -393,9 +396,9 @@
               Captures high-resolution frames using native Windows desktop duplication and direct GDI rendering without causing cursor flickering or frame drops. Switch smoothly between Display 1, Display 2, or full multi-monitor virtual canvases.
             </p>
             <div class="bento-features-list flex flex-wrap gap-2 mt-4">
-              <span class="tag-badge"><i class="fa-solid fa-desktop"></i> Multi-Display Switching</span>
-              <span class="tag-badge"><i class="fa-solid fa-moon"></i> Sleep/Lock Screen Safe-Recovery</span>
-              <span class="tag-badge"><i class="fa-solid fa-gauge-high"></i> Low-Latency Capture</span>
+              <span class="tag-badge"><i class="fa-solid fa-desktop"></i> Multi-Display</span>
+              <span class="tag-badge"><i class="fa-solid fa-moon"></i> Sleep/Lock Recovery</span>
+              <span class="tag-badge"><i class="fa-solid fa-gauge-high"></i> Low-Latency</span>
             </div>
           </div>
           <div class="bento-visual-wrapper">
@@ -434,15 +437,15 @@
         <!-- Bento 3: Push-to-Talk Voice & Audio Commentary -->
         <div class="bento-card glass-card">
           <div class="bento-icon-box"><i class="fa-solid fa-microphone-lines text-purple-400"></i></div>
-          <div class="badge-pill badge-purple text-xs mb-2">Global Hotkey: Alt+A / F8</div>
+          <div class="badge-pill badge-purple text-xs mb-2">Global: Alt+A / F8</div>
           <h3 class="bento-title">Push-to-Talk Voice &amp; Live Commentary</h3>
           <p class="bento-desc">
             Press <kbd>Alt + A</kbd> anywhere in Windows to speak instructions hands-free. The agent answers and delivers real-time spoken commentary via ultra-fast local <strong>Kokoro ONNX</strong> or ElevenLabs.
           </p>
           <div class="voice-waveform-box flex items-center justify-between">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 truncate-box">
               <span class="recording-dot"></span>
-              <span class="text-xs font-mono text-lavender">"Organize my downloads by file type"</span>
+              <span class="text-xs font-mono text-lavender truncate-text">"Organize downloads by file type"</span>
             </div>
             <div class="sound-wave flex items-center gap-1">
               <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -489,7 +492,7 @@
           </p>
           <div class="safety-interception-box font-mono text-xs">
             <span class="text-rose-400"><i class="fa-solid fa-ban"></i> BLOCKED:</span>
-            <span class="text-slate-300">rmdir /s /q C:\Windows\...</span>
+            <span class="text-slate-300 code-truncate">rmdir /s /q C:\Windows\...</span>
             <span class="badge-safe-tag">Safe Gate Intercepted</span>
           </div>
         </div>
@@ -512,21 +515,23 @@
       </div>
 
       <div class="workflow-steps-wrapper">
-        <div class="workflow-nav flex items-center justify-center gap-3">
-          <button class="workflow-tab active" onclick="switchWorkflowStep(1)">
-            <span class="step-num">01</span>
-            <span class="step-label">Multimodal Input</span>
-          </button>
-          <div class="workflow-connector"></div>
-          <button class="workflow-tab" onclick="switchWorkflowStep(2)">
-            <span class="step-num">02</span>
-            <span class="step-label">Perception &amp; Planning</span>
-          </button>
-          <div class="workflow-connector"></div>
-          <button class="workflow-tab" onclick="switchWorkflowStep(3)">
-            <span class="step-num">03</span>
-            <span class="step-label">High-Speed Execution</span>
-          </button>
+        <div class="workflow-nav-container">
+          <div class="workflow-nav flex items-center justify-center gap-3">
+            <button class="workflow-tab active" onclick="switchWorkflowStep(1)">
+              <span class="step-num">01</span>
+              <span class="step-label">Multimodal Input</span>
+            </button>
+            <div class="workflow-connector"></div>
+            <button class="workflow-tab" onclick="switchWorkflowStep(2)">
+              <span class="step-num">02</span>
+              <span class="step-label">Perception &amp; Planning</span>
+            </button>
+            <div class="workflow-connector"></div>
+            <button class="workflow-tab" onclick="switchWorkflowStep(3)">
+              <span class="step-num">03</span>
+              <span class="step-label">High-Speed Execution</span>
+            </button>
+          </div>
         </div>
 
         <!-- Dynamic Workflow Content Cards -->
@@ -534,8 +539,8 @@
           
           <!-- Step 1 View -->
           <div class="step-pane active" id="stepPane1">
-            <div class="grid grid-cols-12 gap-8 items-center">
-              <div class="col-span-6">
+            <div class="grid grid-cols-12 gap-8 items-center workflow-grid">
+              <div class="col-span-6 workflow-col-text">
                 <span class="badge-pill badge-emerald mb-3">Step 1: Input Trigger</span>
                 <h3 class="step-headline">Dispatch Goals Hands-Free or Remotely</h3>
                 <p class="step-desc">
@@ -557,7 +562,7 @@
                 </div>
               </div>
 
-              <div class="col-span-6">
+              <div class="col-span-6 workflow-col-visual">
                 <div class="step-visual-box glass-card p-4">
                   <div class="prompt-simulation">
                     <div class="prompt-sim-header flex items-center justify-between mb-3">
@@ -566,9 +571,9 @@
                     </div>
                     <div class="prompt-input-bubble">
                       <i class="fa-solid fa-quote-left text-lavender mr-2"></i>
-                      <span class="font-serif italic text-white text-lg">"Summarize today's HackerNews AI threads and save them to a markdown file in my Notes folder."</span>
+                      <span class="font-serif italic text-white text-lg quote-prompt-text">"Summarize today's HackerNews AI threads and save them to a markdown file in my Notes folder."</span>
                     </div>
-                    <div class="prompt-meta-info flex items-center justify-between mt-4 text-xs font-mono text-slate-400">
+                    <div class="prompt-meta-info flex items-center justify-between mt-4 text-xs font-mono text-slate-400 flex-wrap gap-2">
                       <span>Source: Voice (Alt+A)</span>
                       <span>Latency: 85ms</span>
                     </div>
@@ -580,8 +585,8 @@
 
           <!-- Step 2 View -->
           <div class="step-pane" id="stepPane2">
-            <div class="grid grid-cols-12 gap-8 items-center">
-              <div class="col-span-6">
+            <div class="grid grid-cols-12 gap-8 items-center workflow-grid">
+              <div class="col-span-6 workflow-col-text">
                 <span class="badge-pill badge-lavender mb-3">Step 2: Vision &amp; Reasoning</span>
                 <h3 class="step-headline">Deep Screen Perception &amp; Dynamic Planning</h3>
                 <p class="step-desc">
@@ -599,7 +604,7 @@
                 </div>
               </div>
 
-              <div class="col-span-6">
+              <div class="col-span-6 workflow-col-visual">
                 <div class="step-visual-box glass-card p-4">
                   <div class="plan-visualizer font-mono text-xs">
                     <div class="plan-header flex items-center justify-between mb-3">
@@ -619,8 +624,8 @@
 
           <!-- Step 3 View -->
           <div class="step-pane" id="stepPane3">
-            <div class="grid grid-cols-12 gap-8 items-center">
-              <div class="col-span-6">
+            <div class="grid grid-cols-12 gap-8 items-center workflow-grid">
+              <div class="col-span-6 workflow-col-text">
                 <span class="badge-pill badge-emerald mb-3">Step 3: Action &amp; Completion</span>
                 <h3 class="step-headline">Organic Mouse, Terminal Tools &amp; Telegram Push</h3>
                 <p class="step-desc">
@@ -638,15 +643,15 @@
                 </div>
               </div>
 
-              <div class="col-span-6">
+              <div class="col-span-6 workflow-col-visual">
                 <div class="step-visual-box glass-card p-4">
                   <div class="execution-result-card font-mono text-xs">
-                    <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
                       <span class="text-emerald font-bold"><i class="fa-solid fa-circle-check"></i> TASK COMPLETED</span>
                       <span class="text-slate-400">Duration: 4.8s</span>
                     </div>
                     <div class="res-body text-slate-300">
-                      File saved: <span class="text-lavender">C:\Users\gavin\Documents\Notes\hn.md</span><br>
+                      File saved: <span class="text-lavender word-break-all">C:\Users\gavin\Documents\Notes\hn.md</span><br>
                       Telegram notification sent to User #7482910 with high-res desktop snapshot.
                     </div>
                   </div>
@@ -675,13 +680,13 @@
       </div>
 
       <div class="skills-explorer glass-panel">
-        <div class="grid grid-cols-12">
+        <div class="skills-explorer-layout">
           
           <!-- Left: Skills File Browser -->
-          <div class="col-span-4 skills-sidebar">
+          <div class="skills-sidebar">
             <div class="skills-sidebar-header flex items-center justify-between">
               <span class="font-mono text-xs text-slate-400"><i class="fa-regular fa-folder-open text-amber-400"></i> skills/</span>
-              <span class="badge-pill badge-subtle text-xs">3 Active Skills</span>
+              <span class="badge-pill badge-subtle text-xs">3 Active</span>
             </div>
 
             <div class="skills-file-list">
@@ -725,15 +730,15 @@
           </div>
 
           <!-- Right: Code / Markdown Editor Viewer -->
-          <div class="col-span-8 skills-editor-pane">
+          <div class="skills-editor-pane">
             <div class="editor-header flex items-center justify-between">
-              <div class="flex items-center gap-2 font-mono text-xs text-slate-300" id="currentSkillFilename">
+              <div class="flex items-center gap-2 font-mono text-xs text-slate-300 truncate-box" id="currentSkillFilename">
                 <i class="fa-brands fa-markdown text-blue-400"></i>
-                <span>skills/reddit_deep_research.md</span>
+                <span class="truncate-text">skills/reddit_deep_research.md</span>
               </div>
               <div class="flex items-center gap-2">
                 <button class="btn btn-secondary btn-xs" onclick="copyActiveSkill(this)">
-                  <i class="fa-regular fa-clone"></i> Copy Skill
+                  <i class="fa-regular fa-clone"></i> Copy
                 </button>
               </div>
             </div>
@@ -772,10 +777,10 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
   <section class="telegram-section section-padding" id="telegram">
     <div class="container">
       
-      <div class="grid grid-cols-12 gap-8 items-center">
+      <div class="grid grid-cols-12 gap-8 items-center telegram-grid">
         
         <!-- Left: Telegram Feature Explanation -->
-        <div class="col-span-6">
+        <div class="col-span-6 tg-col-text">
           <div class="badge-pill badge-sky mb-3"><i class="fa-brands fa-telegram"></i> Mobile Companion</div>
           <h2 class="section-headline">Command Your Desktop from Anywhere in the World</h2>
           <p class="section-subhead">
@@ -810,7 +815,7 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
         </div>
 
         <!-- Right: Interactive Telegram Phone Simulator -->
-        <div class="col-span-6 flex justify-center">
+        <div class="col-span-6 flex justify-center tg-col-phone">
           <div class="phone-frame glass-panel">
             <div class="phone-notch"></div>
             <div class="phone-header flex items-center justify-between">
@@ -854,10 +859,10 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
             <!-- Interactive Phone Input -->
             <div class="phone-input-bar flex items-center gap-2">
               <input type="text" id="tgSimInput" placeholder="Send command (/screen, /status)..." onkeydown="if(event.key==='Enter') handleTgSimSend()">
-              <button class="tg-send-btn" onclick="handleTgSimSend()"><i class="fa-solid fa-paper-plane"></i></button>
+              <button class="tg-send-btn" onclick="handleTgSimSend()" aria-label="Send Message"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
             <div class="phone-footer-hint text-[10px] text-center text-slate-500 py-1 font-mono">
-              Try typing <code>/screen</code> or click the buttons above!
+              Try typing <code>/screen</code> or tap the buttons!
             </div>
           </div>
         </div>
@@ -879,11 +884,11 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
         </p>
       </div>
 
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid grid-cols-2 gap-8 model-matrix-grid">
         
         <!-- Local Mode Card -->
         <div class="model-tier-card glass-card">
-          <div class="tier-badge-top flex items-center justify-between mb-4">
+          <div class="tier-badge-top flex items-center justify-between mb-4 flex-wrap gap-2">
             <span class="badge-pill badge-emerald"><i class="fa-solid fa-shield"></i> 100% Offline &amp; Private</span>
             <span class="font-mono text-xs text-slate-400">Zero Internet Needed</span>
           </div>
@@ -893,10 +898,10 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
           </p>
 
           <ul class="tier-list flex flex-col gap-3 my-6 text-sm">
-            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald"></i> <strong>Vision Models:</strong> Llama 3.2 Vision, Gemma 4, Qwen 2.5</li>
-            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald"></i> <strong>Local TTS:</strong> Ultra-fast Kokoro ONNX voice engine</li>
-            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald"></i> <strong>Zero API Costs:</strong> Free forever, zero monthly token bills</li>
-            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald"></i> <strong>Complete Data Sovereignty:</strong> Air-gapped safe</li>
+            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald"></i> <span><strong>Vision Models:</strong> Llama 3.2 Vision, Gemma 4, Qwen 2.5</span></li>
+            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald"></i> <span><strong>Local TTS:</strong> Ultra-fast Kokoro ONNX voice engine</span></li>
+            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald"></i> <span><strong>Zero API Costs:</strong> Free forever, zero token bills</span></li>
+            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald"></i> <span><strong>Data Sovereignty:</strong> Air-gapped safe</span></li>
           </ul>
 
           <div class="config-snippet-box font-mono text-xs">
@@ -908,7 +913,7 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
 
         <!-- Cloud Mode Card -->
         <div class="model-tier-card glass-card">
-          <div class="tier-badge-top flex items-center justify-between mb-4">
+          <div class="tier-badge-top flex items-center justify-between mb-4 flex-wrap gap-2">
             <span class="badge-pill badge-purple"><i class="fa-solid fa-bolt"></i> High-Speed Cloud APIs</span>
             <span class="font-mono text-xs text-slate-400">Sub-Second Inference</span>
           </div>
@@ -918,10 +923,10 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
           </p>
 
           <ul class="tier-list flex flex-col gap-3 my-6 text-sm">
-            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> <strong>Groq LPU:</strong> 800+ tokens/sec near-instant responses</li>
-            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> <strong>Frontier Models:</strong> Claude 3.5 Sonnet, GPT-4o, Gemini 2.0 Flash</li>
-            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> <strong>ElevenLabs:</strong> Ultra-realistic studio spoken voice</li>
-            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> <strong>OpenRouter Support:</strong> Access 200+ models via one key</li>
+            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> <span><strong>Groq LPU:</strong> 800+ tokens/sec near-instant responses</span></li>
+            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> <span><strong>Frontier Models:</strong> Claude 3.5 Sonnet, GPT-4o, Gemini 2.0</span></li>
+            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> <span><strong>ElevenLabs:</strong> Studio-quality voice generation</span></li>
+            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> <span><strong>OpenRouter:</strong> Access 200+ models via one key</span></li>
           </ul>
 
           <div class="config-snippet-box font-mono text-xs">
@@ -948,6 +953,10 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
         </p>
       </div>
 
+      <div class="table-scroll-hint-wrapper text-center mb-3">
+        <span class="badge-pill badge-subtle text-xs"><i class="fa-solid fa-arrows-left-right"></i> Scroll table horizontally to compare features</span>
+      </div>
+
       <div class="table-responsive glass-panel">
         <table class="comparison-table">
           <thead>
@@ -959,8 +968,8 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
                   <span>My Desktop Agent</span>
                 </div>
               </th>
-              <th>Traditional Web Chatbots (ChatGPT / Claude Web)</th>
-              <th>Traditional RPA (UiPath / AutoHotkey)</th>
+              <th>Traditional Web Chatbots</th>
+              <th>Traditional RPA Tools</th>
             </tr>
           </thead>
           <tbody>
@@ -968,7 +977,7 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
               <td class="font-semibold text-white">Direct Windows Desktop Control</td>
               <td class="highlight-cell text-emerald"><i class="fa-solid fa-circle-check"></i> Full GUI, Mouse &amp; Keyboard</td>
               <td class="text-slate-400"><i class="fa-solid fa-circle-xmark text-rose-500"></i> No (Text advice only)</td>
-              <td class="text-slate-300">⚠️ Brittle fixed coordinates</td>
+              <td class="text-slate-300">⚠️ Brittle fixed coords</td>
             </tr>
             <tr>
               <td class="font-semibold text-white">High-Speed Terminal &amp; Web Tools</td>
@@ -979,7 +988,7 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
             <tr>
               <td class="font-semibold text-white">Continuous Screen Perception</td>
               <td class="highlight-cell text-emerald"><i class="fa-solid fa-circle-check"></i> Zero-Flicker Multi-Monitor</td>
-              <td class="text-slate-400"><i class="fa-solid fa-circle-xmark text-rose-500"></i> Manual screenshot uploads</td>
+              <td class="text-slate-400"><i class="fa-solid fa-circle-xmark text-rose-500"></i> Manual uploads only</td>
               <td class="text-slate-400"><i class="fa-solid fa-circle-xmark text-rose-500"></i> Pixel OCR only</td>
             </tr>
             <tr>
@@ -1034,15 +1043,15 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
       <div class="quickstart-card glass-panel">
         
         <!-- Step Tabs -->
-        <div class="qs-steps-nav flex items-center justify-between border-b border-surface-high">
-          <div class="flex items-center gap-2">
-            <button class="qs-tab active" onclick="switchQsTab('clone')"><span class="step-badge">1</span> Clone Repository</button>
+        <div class="qs-steps-nav flex items-center justify-between border-b border-surface-high flex-wrap gap-2">
+          <div class="qs-tabs-scroll-wrap flex items-center gap-2">
+            <button class="qs-tab active" onclick="switchQsTab('clone')"><span class="step-badge">1</span> Clone</button>
             <button class="qs-tab" onclick="switchQsTab('deps')"><span class="step-badge">2</span> Dependencies</button>
-            <button class="qs-tab" onclick="switchQsTab('setup')"><span class="step-badge">3</span> Setup Wizard</button>
-            <button class="qs-tab" onclick="switchQsTab('run')"><span class="step-badge">4</span> Launch Agent</button>
+            <button class="qs-tab" onclick="switchQsTab('setup')"><span class="step-badge">3</span> Setup</button>
+            <button class="qs-tab" onclick="switchQsTab('run')"><span class="step-badge">4</span> Launch</button>
           </div>
-          <button class="btn btn-secondary btn-sm" onclick="copyAllSteps(this)">
-            <i class="fa-regular fa-copy"></i> Copy Full Script
+          <button class="btn btn-secondary btn-sm qs-copy-all-btn" onclick="copyAllSteps(this)">
+            <i class="fa-regular fa-copy"></i> Copy Script
           </button>
         </div>
 
@@ -1055,7 +1064,7 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
                 <span class="text-slate-400 text-xs">PowerShell / Command Prompt</span>
                 <button class="btn-copy-code" onclick="copySnippet('git clone https://github.com/prettymuchgavin/MyDesktopAgent.git\ncd MyDesktopAgent', this)"><i class="fa-regular fa-clone"></i> Copy</button>
               </div>
-              <pre><code><span class="text-slate-500"># Step 1: Clone the official open-source repository</span>
+              <pre><code><span class="text-slate-500"># Step 1: Clone the repository</span>
 <span class="text-emerald">git</span> clone https://github.com/prettymuchgavin/MyDesktopAgent.git
 <span class="text-emerald">cd</span> MyDesktopAgent</code></pre>
             </div>
@@ -1074,7 +1083,7 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
 <span class="text-emerald">pip</span> install -r requirements.txt</code></pre>
             </div>
             <p class="qs-hint text-xs font-sans text-slate-400 mt-3">
-              Installs screen capture bindings, audio transcription, Kokoro TTS, and LLM orchestration drivers.
+              Installs screen capture bindings, audio transcription, Kokoro TTS, and LLM drivers.
             </p>
           </div>
 
@@ -1084,11 +1093,11 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
                 <span class="text-slate-400 text-xs">PowerShell / Command Prompt</span>
                 <button class="btn-copy-code" onclick="copySnippet('python setup.py', this)"><i class="fa-regular fa-clone"></i> Copy</button>
               </div>
-              <pre><code><span class="text-slate-500"># Step 3: Run interactive setup wizard (configures Telegram bot, LLM keys, Ollama)</span>
+              <pre><code><span class="text-slate-500"># Step 3: Run interactive setup wizard</span>
 <span class="text-emerald">python</span> setup.py</code></pre>
             </div>
             <p class="qs-hint text-xs font-sans text-slate-400 mt-3">
-              The guided CLI wizard detects your displays, checks Ollama connectivity, and optionally tests Telegram webhooks.
+              Detects monitors, verifies Ollama connectivity, and configures your Telegram bot User ID whitelist.
             </p>
           </div>
 
@@ -1098,11 +1107,11 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
                 <span class="text-slate-400 text-xs">PowerShell / Command Prompt</span>
                 <button class="btn-copy-code" onclick="copySnippet('python main.py', this)"><i class="fa-regular fa-clone"></i> Copy</button>
               </div>
-              <pre><code><span class="text-slate-500"># Step 4: Launch My Desktop Agent &amp; Web Control Center</span>
+              <pre><code><span class="text-slate-500"># Step 4: Launch Agent &amp; Web Control Center</span>
 <span class="text-emerald">python</span> main.py</code></pre>
             </div>
             <p class="qs-hint text-xs font-sans text-slate-400 mt-3">
-              Opens the browser dashboard, activates the global <kbd>Alt+A</kbd> voice listener, and listens for Telegram commands.
+              Opens web control dashboard, activates global <kbd>Alt+A</kbd> voice listener, and listens for Telegram commands.
             </p>
           </div>
 
@@ -1198,12 +1207,12 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
       <div class="final-cta-box glass-panel text-center">
         <div class="glow-orb glow-orb-cta"></div>
         <div class="badge-pill badge-emerald mb-4"><i class="fa-solid fa-bolt"></i> Ready to Automate Your PC?</div>
-        <h2 class="cta-headline">Experience the Future of Desktop Autonomy Today.</h2>
+        <h2 class="cta-headline">Experience Desktop Autonomy Today.</h2>
         <p class="cta-subhead max-w-2xl mx-auto">
           Clone the repository, run the setup wizard, and watch your AI desktop assistant take action in seconds.
         </p>
 
-        <div class="flex items-center justify-center flex-wrap gap-4 mt-8">
+        <div class="flex items-center justify-center flex-wrap gap-4 mt-8 cta-buttons-wrap">
           <a href="#quickstart" class="btn btn-primary btn-lg glow-btn flex items-center gap-2">
             <i class="fa-solid fa-download"></i>
             <span>Install Desktop Agent</span>
@@ -1222,7 +1231,7 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
     <div class="container">
       <div class="footer-top grid grid-cols-12 gap-8 pb-12 border-b border-surface-high">
         
-        <div class="col-span-4">
+        <div class="col-span-4 footer-col-brand">
           <div class="brand-logo flex items-center gap-3 mb-4">
             <div class="logo-icon-box">
               <i class="fa-solid fa-terminal text-emerald"></i>
@@ -1232,13 +1241,13 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
           <p class="text-xs text-slate-400 leading-relaxed mb-4">
             The open-source autonomous desktop AI assistant for Windows. Screen perception, terminal execution, organic mouse physics, and Telegram remote control.
           </p>
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3 flex-wrap">
             <span class="badge-pill badge-emerald text-xs"><i class="fa-solid fa-scale-balanced"></i> MIT License</span>
             <span class="badge-pill badge-lavender text-xs">Windows 10 / 11</span>
           </div>
         </div>
 
-        <div class="col-span-2">
+        <div class="col-span-2 footer-col-links">
           <h4 class="footer-heading">Capabilities</h4>
           <ul class="footer-links flex flex-col gap-2">
             <li><a href="#features">Screen Vision</a></li>
@@ -1249,7 +1258,7 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
           </ul>
         </div>
 
-        <div class="col-span-2">
+        <div class="col-span-2 footer-col-links">
           <h4 class="footer-heading">Ecosystem</h4>
           <ul class="footer-links flex flex-col gap-2">
             <li><a href="#skills">Custom Skills</a></li>
@@ -1260,12 +1269,12 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
           </ul>
         </div>
 
-        <div class="col-span-4">
+        <div class="col-span-4 footer-col-community">
           <h4 class="footer-heading">Community &amp; Source</h4>
           <p class="text-xs text-slate-400 mb-3">
             Contribute to the open source project, submit skills, report issues, or star on GitHub.
           </p>
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3 flex-wrap">
             <a href="https://github.com/prettymuchgavin/MyDesktopAgent" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm flex items-center gap-2">
               <i class="fa-brands fa-github"></i> GitHub Repo
             </a>
@@ -1277,11 +1286,11 @@ Search Reddit discussions for a target topic, scrape community sentiment, extrac
 
       </div>
 
-      <div class="footer-bottom flex items-center justify-between pt-6 text-xs text-slate-500">
+      <div class="footer-bottom flex items-center justify-between pt-6 text-xs text-slate-500 flex-wrap gap-3">
         <div>
           &copy; 2026 My Desktop Agent Contributors. Released under the MIT License.
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3 flex-wrap">
           <span>Obsidian &amp; Editorial Theme</span>
           <span>•</span>
           <span>Emergency Hotkey: <kbd class="font-mono text-emerald">F12</kbd></span>
