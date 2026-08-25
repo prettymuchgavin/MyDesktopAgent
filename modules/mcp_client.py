@@ -316,6 +316,64 @@ class MCPClientManager:
 
         return {"status": "error", "error": f"MCP tool '{tool_name}' not found on any connected server."}
 
+    def add_server(self, name: str, server_config: Dict[str, Any], config_path: str = "config.yaml") -> Dict[str, Any]:
+        """Dynamically adds or updates an MCP server, connects immediately, and persists to config.yaml."""
+        if not name or not isinstance(server_config, dict):
+            return {"status": "error", "error": "Invalid server name or configuration."}
+
+        # Disconnect existing if replacing
+        if name in self.servers:
+            self.servers[name].disconnect()
+
+        # Connect new server
+        conn = MCPServerConnection(name, server_config)
+        self.servers[name] = conn
+        success = conn.connect()
+
+        self.config[name] = server_config
+        self._persist_to_yaml(config_path)
+
+        return {
+            "status": "success" if success else "connected_with_warnings",
+            "server": name,
+            "connected": conn.is_connected,
+            "tools_count": len(conn.tools),
+            "tools": [t.get("name") for t in conn.tools],
+            "message": f"MCP Server '{name}' added successfully with {len(conn.tools)} tools." if success else f"MCP Server '{name}' added but handshake did not complete."
+        }
+
+    def remove_server(self, name: str, config_path: str = "config.yaml") -> Dict[str, Any]:
+        """Disconnects and removes an MCP server, and updates config.yaml."""
+        if name not in self.servers and name not in self.config:
+            return {"status": "not_found", "error": f"MCP server '{name}' does not exist."}
+
+        if name in self.servers:
+            self.servers[name].disconnect()
+            del self.servers[name]
+
+        if name in self.config:
+            del self.config[name]
+
+        self._persist_to_yaml(config_path)
+        return {"status": "success", "message": f"MCP Server '{name}' removed successfully."}
+
+    def _persist_to_yaml(self, config_path: str = "config.yaml"):
+        """Saves current mcp_servers to config.yaml safely preserving other config keys."""
+        try:
+            import yaml
+            if os.path.exists(config_path):
+                with open(config_path, "r", encoding="utf-8") as f:
+                    existing_cfg = yaml.safe_load(f) or {}
+            else:
+                existing_cfg = {}
+
+            existing_cfg["mcp_servers"] = self.config
+            with open(config_path, "w", encoding="utf-8") as f:
+                yaml.dump(existing_cfg, f, default_flow_style=False, allow_unicode=True)
+            logger.info(f"💾 Persisted {len(self.config)} MCP servers to {config_path}")
+        except Exception as e:
+            logger.error(f"Failed to persist MCP servers to {config_path}: {e}")
+
     def get_mcp_prompt_context(self) -> str:
         """Builds prompt documentation of all currently active MCP tools for the LLM."""
         tools = self.get_all_tools()

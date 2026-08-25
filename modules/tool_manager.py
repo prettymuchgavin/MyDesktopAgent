@@ -272,4 +272,32 @@ class DesktopToolManager:
                 return self.mcp_manager.call_tool(tool_name, args, server_name=server_name)
             return {"status": "error", "error": "MCP manager not initialized."}
 
+        elif act_type in ["add_mcp_server", "configure_mcp", "install_mcp"]:
+            name = action_dict.get("name") or action_dict.get("server_name") or ""
+            server_config = {}
+            if "url" in action_dict:
+                server_config["url"] = action_dict["url"]
+            elif "command" in action_dict:
+                server_config["command"] = action_dict["command"]
+                server_config["args"] = action_dict.get("args", [])
+                if "env" in action_dict and isinstance(action_dict["env"], dict):
+                    server_config["env"] = action_dict["env"]
+            elif "config" in action_dict and isinstance(action_dict["config"], dict):
+                server_config = action_dict["config"]
+
+            if self.mcp_manager:
+                return self.mcp_manager.add_server(name, server_config)
+            return {"status": "error", "error": "MCP manager not attached."}
+
+        elif act_type in ["remove_mcp_server", "delete_mcp_server"]:
+            name = action_dict.get("name") or action_dict.get("server_name") or ""
+            if self.mcp_manager:
+                return self.mcp_manager.remove_server(name)
+            return {"status": "error", "error": "MCP manager not attached."}
+
+        elif act_type in ["list_mcp_servers", "get_mcp_servers"]:
+            if self.mcp_manager:
+                return {"status": "success", "servers": self.mcp_manager.get_servers_status(), "tools": self.mcp_manager.get_all_tools()}
+            return {"status": "error", "error": "MCP manager not attached."}
+
         return {"status": "unknown_tool", "action": act_type}

@@ -366,13 +366,34 @@ document.addEventListener("DOMContentLoaded", () => {
                             <h4 class="font-bold text-sm text-on-surface font-serif">${s.name}</h4>
                             <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-surface text-on-surface-variant">${s.transport}</span>
                         </div>
-                        ${statusBadge}
+                        <div class="flex items-center gap-2">
+                            ${statusBadge}
+                            <button class="btn-remove-mcp text-on-surface-variant hover:text-rose-400 p-1 rounded transition-colors" title="Remove MCP Server" data-server="${s.name}">
+                                <span class="material-symbols-outlined text-sm">delete</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="pt-1 flex flex-wrap gap-1 items-center">
                         <span class="text-xs text-on-surface-variant mr-1 font-bold">Tools:</span>
                         ${toolsList}
                     </div>
                 `;
+
+                const delBtn = card.querySelector(".btn-remove-mcp");
+                if (delBtn) {
+                    delBtn.addEventListener("click", async (e) => {
+                        e.stopPropagation();
+                        if (confirm(`Remove MCP server "${s.name}"?`)) {
+                            await fetch("/api/mcp/remove", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ name: s.name })
+                            });
+                            loadMCPServers();
+                        }
+                    });
+                }
+
                 mcpServersList.appendChild(card);
             });
         } catch (e) {

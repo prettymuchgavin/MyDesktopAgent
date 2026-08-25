@@ -267,6 +267,32 @@ def call_mcp_tool(req: MCPCallRequest):
     res = orchestrator.mcp_manager.call_tool(req.tool, req.arguments or {}, server_name=req.server)
     return res
 
+class AddMCPServerRequest(BaseModel):
+    name: str
+    command: Optional[str] = None
+    args: Optional[List[str]] = None
+    env: Optional[Dict[str, str]] = None
+    url: Optional[str] = None
+
+@app.post("/api/mcp/add")
+def api_add_mcp_server(req: AddMCPServerRequest):
+    cfg = {}
+    if req.url:
+        cfg["url"] = req.url
+    elif req.command:
+        cfg["command"] = req.command
+        cfg["args"] = req.args or []
+        if req.env:
+            cfg["env"] = req.env
+    return orchestrator.mcp_manager.add_server(req.name, cfg)
+
+class RemoveMCPServerRequest(BaseModel):
+    name: str
+
+@app.post("/api/mcp/remove")
+def api_remove_mcp_server(req: RemoveMCPServerRequest):
+    return orchestrator.mcp_manager.remove_server(req.name)
+
 @app.websocket("/ws/logs")
 async def websocket_logs(websocket: WebSocket):
     await websocket.accept()
