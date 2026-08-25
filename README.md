@@ -12,7 +12,8 @@
 
 * **👁️ Real-Time Screen Perception (Non-Flickering VLM)**: Continuously observes desktop state across multiple monitors with automatic fail-safe recovery and zero cursor flicker.
 * **🖱️ Autonomous Mouse & Keyboard Automation**: Humanized Bézier mouse trajectories, smart clipboard pasting, hotkeys, scrolling, and window switching.
-* **⚡ High-Speed Direct Tools**: Instant PowerShell terminal command execution, DuckDuckGo web search (<1s), URL text extraction, and local filesystem operations.
+* **⚡ High-Speed Direct Tools & MCP Servers**: Instant PowerShell terminal commands, DuckDuckGo web search (<1s), local filesystem operations, plus full **Model Context Protocol (MCP)** client support (connect any Stdio or SSE MCP server).
+* **🔌 Model Context Protocol (MCP) Ecosystem**: Native JSON-RPC 2.0 client supporting GitHub, Filesystem, Postgres, Puppeteer, and custom MCP tool providers.
 * **🧩 Markdown Skills Ecosystem (`skills/*.md`)**: Drop-in `.md` skill guides (like OpenClaw / Cursor rules) with step-by-step instructions the agent dynamically references.
 * **🎙️ Push-to-Talk Voice Input**: Press **`Alt + A`** or **`F8`** anywhere in Windows to speak tasks hands-free.
 * **🔊 Natural Voice Generation**: Ultra-fast local Kokoro ONNX speech synthesis + ElevenLabs Cloud integration.
@@ -96,6 +97,33 @@ triggers: search, research, google, news, find information
 2. Use `fetch_url` to inspect deep documentation.
 3. Save findings to a local markdown file with `write_file`.
 ```
+
+---
+
+## 🔌 Model Context Protocol (MCP) Integration
+
+You can easily attach external MCP tool servers (Stdio or SSE/HTTP) in your `config.yaml`:
+
+```yaml
+mcp_servers:
+  # Example 1: Local Filesystem MCP Server
+  filesystem:
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "C:\\Users\\your_user\\Desktop"]
+  
+  # Example 2: GitHub MCP Server
+  github:
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env:
+      GITHUB_PERSONAL_ACCESS_TOKEN: "your_pat_token"
+
+  # Example 3: Remote SSE / HTTP MCP Server
+  custom_remote:
+    url: "http://localhost:8080/mcp"
+```
+
+The agent automatically discovers all exposed tools, generates parameter documentation, and executes them seamlessly during task planning.
 
 ---
 

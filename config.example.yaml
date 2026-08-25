@@ -65,6 +65,25 @@ skills:
 scheduler:
   enabled: true
 
+# Model Context Protocol (MCP) Servers
+# Add external tools from any stdio or SSE/HTTP MCP server (Filesystem, GitHub, Postgres, Puppeteer, etc.)
+mcp_servers:
+  # Example 1: Local Stdio MCP Server (e.g. Filesystem)
+  # filesystem:
+  #   command: "npx"
+  #   args: ["-y", "@modelcontextprotocol/server-filesystem", "C:\\Users\\your_user\\Desktop"]
+  
+  # Example 2: Python / Custom Local MCP Server
+  # my_python_server:
+  #   command: "python"
+  #   args: ["mcp_server.py"]
+  #   env:
+  #     API_KEY: "optional_env_vars"
+
+  # Example 3: Remote SSE / HTTP MCP Server
+  # remote_tools:
+  #   url: "http://localhost:8080/mcp"
+
 # Web Dashboard Server
 web_dashboard:
   host: "127.0.0.1"

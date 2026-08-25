@@ -477,6 +477,18 @@
                         <h3 class="text-base font-bold text-on-surface">🧩 Discovered Markdown Skills</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="skillsFullList"></div>
                     </div>
+
+                    <!-- MCP Servers & Tools -->
+                    <div class="bg-surface-container-low border border-outline-variant rounded-xl p-6 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-base font-bold text-on-surface">🔌 Model Context Protocol (MCP) Servers</h3>
+                                <p class="text-xs text-on-surface-variant">External tools connected via Stdio & SSE/HTTP (configured in `config.yaml`)</p>
+                            </div>
+                            <span id="mcpServerCountBadge" class="px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-bold">0 Servers Active</span>
+                        </div>
+                        <div class="space-y-3" id="mcpServersList"></div>
+                    </div>
                 </div>
             </div>
 

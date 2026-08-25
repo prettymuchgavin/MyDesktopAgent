@@ -26,12 +26,13 @@ DANGEROUS_PATTERNS = [
 ]
 
 class DesktopToolManager:
-    """High-speed desktop execution tools (Terminal Commands, Fast Web Search, Web Scraping, Filesystem)."""
-    def __init__(self, config: Optional[Dict[str, Any]] = None, knowledge_manager=None):
+    """High-speed desktop execution tools (Terminal Commands, Fast Web Search, Web Scraping, Filesystem, MCP Tools)."""
+    def __init__(self, config: Optional[Dict[str, Any]] = None, knowledge_manager=None, mcp_manager=None):
         cfg = config or {}
         self.enable_commands = cfg.get("enable_terminal_commands", True)
         self.command_timeout = float(cfg.get("terminal_timeout_sec", 20.0))
         self.knowledge_manager = knowledge_manager
+        self.mcp_manager = mcp_manager
         self.last_tool_output: Optional[Dict[str, Any]] = None
 
     def update_config(self, config: Dict[str, Any]):
@@ -262,5 +263,13 @@ class DesktopToolManager:
                 results = self.knowledge_manager.search(query)
                 return {"status": "success", "query": query, "results": results}
             return {"status": "error", "error": "Knowledge manager not attached."}
+
+        elif act_type in ["mcp_tool", "call_mcp", "mcp", "call_mcp_tool", "mcp_call"]:
+            tool_name = action_dict.get("tool") or action_dict.get("name") or action_dict.get("tool_name") or ""
+            args = action_dict.get("arguments") or action_dict.get("args") or action_dict.get("params") or {}
+            server_name = action_dict.get("server") or action_dict.get("server_name")
+            if self.mcp_manager:
+                return self.mcp_manager.call_tool(tool_name, args, server_name=server_name)
+            return {"status": "error", "error": "MCP manager not initialized."}
 
         return {"status": "unknown_tool", "action": act_type}

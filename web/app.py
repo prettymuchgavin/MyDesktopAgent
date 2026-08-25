@@ -249,6 +249,24 @@ def search_knowledge(req: SearchKnowledgeRequest):
     results = orchestrator.knowledge_manager.search(req.query)
     return {"results": results}
 
+# --- MCP (Model Context Protocol) API ---
+@app.get("/api/mcp/servers")
+def get_mcp_servers():
+    return {
+        "servers": orchestrator.mcp_manager.get_servers_status(),
+        "tools": orchestrator.mcp_manager.get_all_tools()
+    }
+
+class MCPCallRequest(BaseModel):
+    tool: str
+    arguments: Optional[Dict[str, Any]] = None
+    server: Optional[str] = None
+
+@app.post("/api/mcp/call")
+def call_mcp_tool(req: MCPCallRequest):
+    res = orchestrator.mcp_manager.call_tool(req.tool, req.arguments or {}, server_name=req.server)
+    return res
+
 @app.websocket("/ws/logs")
 async def websocket_logs(websocket: WebSocket):
     await websocket.accept()

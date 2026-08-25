@@ -11,6 +11,7 @@ from modules.telegram_bot import TelegramBotService
 from modules.tool_manager import DesktopToolManager
 from modules.skill_manager import SkillManager
 from modules.knowledge_manager import LocalKnowledgeManager
+from modules.mcp_client import MCPClientManager
 from modules.scheduler_manager import SchedulerManager
 from modules.voice_input import VoiceInputService
 from modules.logger import setup_logger
@@ -30,12 +31,17 @@ class DesktopAgentOrchestrator:
         desktop_cfg = config.get("desktop_agent", config.get("game_agent", {}))
         self.desktop_agent = GameAgent(desktop_cfg)
         
-        # Knowledge Base & Skills
+        # Knowledge Base & Skills & MCP Servers
         self.knowledge_manager = LocalKnowledgeManager()
         self.skill_manager = SkillManager()
+        self.mcp_manager = MCPClientManager(config.get("mcp_servers", {}))
         
         # Tools & Safety
-        self.tool_manager = DesktopToolManager(config.get("tools", {}), knowledge_manager=self.knowledge_manager)
+        self.tool_manager = DesktopToolManager(
+            config.get("tools", {}), 
+            knowledge_manager=self.knowledge_manager,
+            mcp_manager=self.mcp_manager
+        )
         self.last_tool_output_summary: Optional[str] = None
         
         # Scheduler & Push-to-Talk Voice Input
@@ -128,6 +134,9 @@ class DesktopAgentOrchestrator:
         telegram_cfg = new_config.get("telegram", {})
         self.telegram.update_config(telegram_cfg)
 
+        if "mcp_servers" in new_config:
+            self.mcp_manager.update_config(new_config["mcp_servers"])
+
         logger.info(f"Runtime configuration updated. Text '{self.llm.text_model}' / Vision '{self.llm.vision_model}', TTS: '{self.tts.engine_type}', Telegram: {self.telegram.enabled}")
 
     def get_status(self) -> Dict[str, Any]:
@@ -144,6 +153,7 @@ class DesktopAgentOrchestrator:
             "vision_model": self.llm.vision_model,
             "last_screenshot_available": self.desktop_agent.last_screenshot_b64 is not None,
             "task_state": task_status,
+            "mcp_servers": self.mcp_manager.get_servers_status(),
             "memory_stats": {
                 "user_preferences": len(self.memory_manager.memory.get("user_preferences", {})),
                 "saved_notes": len(self.memory_manager.memory.get("saved_notes", [])),
@@ -169,15 +179,18 @@ class DesktopAgentOrchestrator:
                             mouse_ctx = self.desktop_agent.get_mouse_context()
                             curr_step_desc = self.task_executor.get_current_step_description()
                             
-                            # Inject relevant Markdown Skills and Knowledge Base context
+                            # Inject relevant Markdown Skills, Knowledge Base, and MCP Server context
                             skill_ctx = self.skill_manager.build_skill_context(self.task_executor.goal)
                             knowledge_ctx = self.knowledge_manager.get_knowledge_context(self.task_executor.goal)
+                            mcp_ctx = self.mcp_manager.get_mcp_prompt_context()
                             
                             full_persona = self.persona
                             if skill_ctx:
                                 full_persona += f"\n\n{skill_ctx}"
                             if knowledge_ctx:
                                 full_persona += f"\n\n{knowledge_ctx}"
+                            if mcp_ctx:
+                                full_persona += f"\n\n{mcp_ctx}"
                             
                             task_res = self.llm.analyze_desktop_task(
                                 image_b64=img_b64,

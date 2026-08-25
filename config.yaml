@@ -45,6 +45,7 @@ ollama:
   vision_model: gemma4:31b-cloud
 scheduler:
   enabled: true
+mcp_servers: {}
 skills:
   directory: skills
 telegram:

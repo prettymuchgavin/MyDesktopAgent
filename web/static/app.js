@@ -49,10 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const cfgEnableTools = document.getElementById("cfgEnableTools");
     const btnSaveConfig = document.getElementById("btnSaveConfig");
 
-    // Knowledge Search
+    // Knowledge Search & MCP
     const knowledgeSearchInput = document.getElementById("knowledgeSearchInput");
     const btnSearchKnowledge = document.getElementById("btnSearchKnowledge");
     const knowledgeSearchResults = document.getElementById("knowledgeSearchResults");
+    const mcpServerCountBadge = document.getElementById("mcpServerCountBadge");
+    const mcpServersList = document.getElementById("mcpServersList");
     const fullLogViewer = document.getElementById("fullLogViewer");
     const btnClearLogs = document.getElementById("btnClearLogs");
 
@@ -125,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateUIState(statusData);
             loadMonitors();
             loadSkills();
+            loadMCPServers();
         } catch (err) {
             console.error("Failed to load status:", err);
         }
@@ -318,6 +321,62 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (e) {
             console.warn("Could not load skills:", e);
+        }
+    }
+
+    // --- 4b. MCP Servers & Tools ---
+    async function loadMCPServers() {
+        if (!mcpServersList) return;
+        try {
+            const res = await fetch("/api/mcp/servers");
+            const data = await res.json();
+            const servers = data.servers || [];
+            const tools = data.tools || [];
+            
+            if (mcpServerCountBadge) {
+                mcpServerCountBadge.textContent = `${servers.length} Servers (${tools.length} Tools)`;
+            }
+
+            mcpServersList.innerHTML = "";
+            if (servers.length === 0) {
+                mcpServersList.innerHTML = `
+                    <div class="p-4 rounded-xl bg-surface-container border border-outline-variant/60 text-xs text-on-surface-variant">
+                        <p class="font-bold text-on-surface mb-1">No MCP Servers Configured</p>
+                        <p>To connect external MCP tools (like GitHub, Filesystem, Postgres, etc.), configure them under <code class="text-primary font-mono">mcp_servers</code> in your <code class="text-primary font-mono">config.yaml</code>.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            servers.forEach(s => {
+                const card = document.createElement("div");
+                card.className = "p-4 rounded-xl bg-surface-container border border-outline-variant flex flex-col gap-2";
+                const statusBadge = s.connected 
+                    ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">🟢 Connected</span>`
+                    : `<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 text-[10px] font-bold">🔴 Connecting / Disconnected</span>`;
+                
+                const toolsList = s.tools && s.tools.length > 0
+                    ? s.tools.map(t => `<span class="px-2 py-0.5 rounded bg-surface-container-high text-[11px] font-mono text-primary">${t}</span>`).join(" ")
+                    : `<span class="text-xs text-on-surface-variant italic">No tools discovered</span>`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-sm">extension</span>
+                            <h4 class="font-bold text-sm text-on-surface font-serif">${s.name}</h4>
+                            <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-surface text-on-surface-variant">${s.transport}</span>
+                        </div>
+                        ${statusBadge}
+                    </div>
+                    <div class="pt-1 flex flex-wrap gap-1 items-center">
+                        <span class="text-xs text-on-surface-variant mr-1 font-bold">Tools:</span>
+                        ${toolsList}
+                    </div>
+                `;
+                mcpServersList.appendChild(card);
+            });
+        } catch (e) {
+            console.warn("Could not load MCP servers:", e);
         }
     }
 
